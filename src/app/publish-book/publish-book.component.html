@@ -1,0 +1,95 @@
+<div class="container">
+  <h3><b>Publish a book now!</b></h3>
+
+  <hr>
+  <form>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="title">Book Title</label>
+          <input type="text" id="title" class="form-control" placeholder="Book title" name="book_title" />
+        </div>
+
+        <div class="form-group">
+          <label for="summary">Book Summary</label>
+          <textarea type="text" id="summary" class="form-control" placeholder="Book Summary" name="book_summary" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="keywords">Book Keywords</label>
+          <textarea type="text" id="keywords" class="form-control" placeholder="Book keywords" name="book_keywords" rows="2"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="pages">No.of Pages</label>
+          <input type="text" id="pages" class="form-control" placeholder="No.of Pages" name="No.of_Pages" />
+        </div>
+
+        <div class="form-group">
+          <label for="Author">Author</label>
+          <input type="text" id="Author" class="form-control" placeholder="Author" name="Author" />
+        </div>
+
+        <div class="form-group">
+          <label for="book_author_desc">Book Author Description</label>
+          <textarea name="book_author_desc" id="book_author_desc" rows="2"
+                    placeholder="Book Author Description" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="form-group">
+          <label for="Availability">Availability</label>
+          <select name="Availability" id="Availability" class="form-control">
+            <option *ngFor="let av of trueFalseArray" value="{{ av.val }}">{{ av.text }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="lease_price">Lease Price</label>
+          <input type="number" id="lease_price" class="form-control" placeholder="Lease Price" name="lease_price" />
+        </div>
+
+        <div class="form-group">
+          <label for="book_image">Book Image</label>
+          <input type="file" id="book_image" class="form-control" placeholder="Book Image" name="bokk_image" />
+        </div>
+
+        <div class="form-group">
+          <label for="m_group">Material Group</label>
+          <input type="text" id="m_group" class="form-control" placeholder="Material Group" name="m_group" />
+        </div>
+
+        <div class="form-group">
+          <label for="language">Language</label>
+          <select name="language" id="language" class="form-control">
+            <option *ngFor="let av of languages" value="{{ av.val }}">{{ av.text }}</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="publisher">Publisher</label>
+          <input type="text" id="publisher" class="form-control" placeholder="Publisher" name="publisher" />
+        </div>
+        <div class="form-group">
+          <label for="ISBN">ISBN</label>
+          <input type="text" id="ISBN" class="form-control" placeholder="ISBN" name="ISBN" />
+        </div>
+
+      </div> <!-- end col -->
+      <div class="col-lg-4">
+        <h5 class="text-uppercase" style="color: orangered;"><b>Do you have E-Book?</b></h5>
+
+        <div class="form-group">
+          <label for="e-book">E-Book</label>
+          <input type="file" class="form-control" placeholder="E-book" name="e-book" id="e-book" />
+        </div>
+      </div> <!-- end col -->
+    </div> <!-- end row -->
+    <div class="row">
+      <div class="col-lg-3">
+        <button type="submit" class="btn btn-sm btn-primary">Publish</button>
+        <button class="btn-default btn-sm btn" type="reset">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

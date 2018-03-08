@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GridOptions } from 'ag-grid';
 
 @Component({
   selector: 'app-homepage',
@@ -6,10 +7,94 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements OnInit {
+  public gridOptions: GridOptions;
 
-  constructor() { }
+  constructor() {
+    this.gridOptions = <GridOptions>{};
+    this.gridOptions.columnDefs = [
+      {
+        headerName: 'Id',
+        field: 'id',
+        width: 100
+      },
+      {
+        headerName: 'Value',
+        field: 'value',
+        width: 100
+      },
+      {
+        headerName: 'Id',
+        field: 'id',
+        width: 100
+      },
+      {
+        headerName: 'Value',
+        field: 'value',
+        width: 100
+      },
+      {
+        headerName: 'Id',
+        field: 'id',
+        width: 100
+      },
+      {
+        headerName: 'Value',
+        field: 'value',
+        width: 100
+      },
+      {
+        headerName: 'Id',
+        field: 'id',
+        width: 100
+      },
+      {
+        headerName: 'Value',
+        field: 'value',
+        width: 100
+      },
+      {
+        headerName: 'Id',
+        field: 'id',
+        width: 100
+      },
+      {
+        headerName: 'Value',
+        field: 'value',
+        width: 100
+      },
+      {
+        headerName: 'Id',
+        field: 'id',
+        width: 100
+      },
+      {
+        headerName: 'Value',
+        field: 'value',
+        width: 100
+      }
 
-  ngOnInit() {
+    ];
+    this.gridOptions.rowData = [
+      {id: 5, value: 10},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20},
+      {id: 10, value: 15},
+      {id: 15, value: 20}
+    ];
   }
-
+  ngOnInit () {}
 }

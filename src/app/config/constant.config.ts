@@ -4,18 +4,18 @@
 export class AppUrls {
   public baseUrl = '/';
   // REST End points
-  public login: string = this.baseUrl + 'login';
-  public register: string = this.baseUrl + 'register';
-  public confirmEmail: string = this.baseUrl + 'account/ConfirmEmailAndSetPassword';
-  public resetPassword: string = this.baseUrl + 'reset';
-  public sendForgotPasswordMail: string = this.baseUrl + 'Password/SendForgotPasswordMail';
+  public login = this.baseUrl + 'login';
+  public register = this.baseUrl + 'register';
+  public confirmEmail = this.baseUrl + 'account/ConfirmEmailAndSetPassword';
+  public resetPassword = this.baseUrl + 'reset';
+  public sendForgotPasswordMail = this.baseUrl + 'Password/SendForgotPasswordMail';
 
-  public book_details: string = this.baseUrl + 'book_details';
-  public books_list: string = this.baseUrl + 'books_list';
-  // public getChipDetails: string = 'http://demo3039112.mockable.io/chipDashboard';
-  public categories: string = this.baseUrl + 'categories';
-  public authors: string = this.baseUrl + 'authors';
-  public users: string = this.baseUrl + 'users';
-  public user_details: string = this.baseUrl + 'user_details';
+  public book_details = this.baseUrl + 'assets/db/books.json';
+  public books_list = this.baseUrl + 'assets/db/books.json';
+  // public getChipDetails = 'http://demo3039112.mockable.io/chipDashboard';
+  public categories = this.baseUrl + 'categories';
+  public authors = this.baseUrl + 'authors';
+  public users = this.baseUrl + 'users';
+  public user_details = this.baseUrl + 'user_details';
 }
 

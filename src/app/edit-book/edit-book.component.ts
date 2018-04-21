@@ -2,16 +2,17 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AppServiceModule, Languages} from '../shared/app.service.module';
 import {FormControl, FormGroup} from '@angular/forms';
 import {AppUrls} from '../config/constant.config';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-publish-book',
-  templateUrl: './publish-book.component.html',
-  styleUrls: ['./publish-book.component.css']
+  selector: 'app-edit-book',
+  templateUrl: './edit-book.component.html',
+  styleUrls: ['./edit-book.component.css']
 })
-export class PublishBookComponent implements OnInit {
+export class EditBookComponent implements OnInit {
   trueFalseArray: any[];
   bookInfo: object = {};
-  isbnSearch: string;
+  myParams: any = {};
   languages: any[];
   googleBookInfo: any = {};
   categories: any = [];
@@ -40,7 +41,12 @@ export class PublishBookComponent implements OnInit {
   @ViewChild('imageUpload') imageInput: ElementRef;
   constructor(private appService: AppServiceModule,
               private langs: Languages,
-              private appUrls: AppUrls) {}
+              private appUrls: AppUrls,
+              private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.params.subscribe((params) => {
+      this.myParams = params;
+    });
+  }
   ngOnInit() {
     this.trueFalseArray = [
       {text: 'Yes', val: true},
@@ -48,47 +54,6 @@ export class PublishBookComponent implements OnInit {
     ];
     this.languages = this.langs.get();
     this.getCategories();
-  }
-  getBookDetails (isbnNumber: string) {
-    if (!isbnNumber) { return; }
-    const googleBookAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbnNumber;
-    this.appService.get(googleBookAPI).subscribe((data) => {
-      console.log(data);
-      if (data['items'] && data['items'].length) {
-        this.googleBookInfo = data['items'][0]['volumeInfo'];
-        console.log(this.googleBookInfo);
-        if (this.googleBookInfo['industryIdentifiers']) {
-          this.googleBookInfo.industryIdentifiers.forEach((item) => {
-            this.bookInfo[item['type']] = item['identifier'];
-          });
-        }
-        if (this.googleBookInfo['authors']) {
-          this.bookInfo['book_authors'] = this.googleBookInfo.authors;
-        }
-        this.bookInfo['book_title'] = this.googleBookInfo['title'];
-        this.bookInfo['sub_title'] = this.googleBookInfo['subtitle'];
-        this.bookInfo['publisher'] = this.googleBookInfo['publisher'];
-        this.bookInfo['published_date'] = this.googleBookInfo['publishedDate'];
-        /*if (this.googleBookInfo['categories']) {
-          this.bookInfo['book_category'] = this.googleBookInfo.categories.toString();
-        }*/
-        this.bookInfo['language'] = this.googleBookInfo['language'];
-        this.bookInfo['book_summary'] = this.googleBookInfo['description'];
-        this.bookInfo['no_of_pages'] = this.googleBookInfo['pageCount'];
-        if (this.googleBookInfo['imageLinks']) {
-          this.bookInfo['image_small_thumbnail'] = this.googleBookInfo['imageLinks']['smallThumbnail'];
-          this.bookInfo['image_thumbnail'] = this.googleBookInfo['imageLinks']['thumbnail'];
-          this.imagePreview['src'] = this.googleBookInfo['imageLinks']['thumbnail'];
-          this.imageInput.nativeElement.required = false;
-        } else {
-          this.imageInput.nativeElement.required = true;
-        }
-        console.log(this.bookInfo);
-        this.bookForm.patchValue(this.bookInfo);
-      }
-    }, (err) => {
-      console.log(err);
-    });
   }
   fileChangeEvent (event) {
     const image = this.imageInput.nativeElement['files'][0];
@@ -106,6 +71,16 @@ export class PublishBookComponent implements OnInit {
     this.appService.get(this.appUrls.categories).subscribe((data: any) => {
       console.log(data);
       this.categories = data['_items'];
+      this.getBookDetails();
+    }, (err) => {
+      console.log(err);
+    });
+  }
+  getBookDetails() {
+    this.appService.get(this.appUrls.books_list + '/' + this.myParams['_id']).subscribe((data) => {
+      console.log(data);
+      this.bookInfo = data;
+      this.bookForm.patchValue(data);
     }, (err) => {
       console.log(err);
     });
@@ -137,6 +112,5 @@ export class PublishBookComponent implements OnInit {
       this.postBook(bookForm);
     }
   }
+
 }
-
-

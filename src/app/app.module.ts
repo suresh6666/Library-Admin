@@ -12,8 +12,13 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { PublishBookComponent } from './publish-book/publish-book.component';
-import {AppServiceModule} from './shared/app.service.module';
+import {AppServiceModule, AuthGuardService, AuthService, Languages} from './shared/app.service.module';
 import {AppUrls} from './config/constant.config';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { PersonsComponent } from './persons/persons.component';
+import {BsDatepickerModule} from 'ngx-bootstrap';
+import { EditBookComponent } from './edit-book/edit-book.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 
 @NgModule({
@@ -23,17 +28,23 @@ import {AppUrls} from './config/constant.config';
     NavbarComponent,
     RegisterComponent,
     HomepageComponent,
-    PublishBookComponent
+    PublishBookComponent,
+    PersonsComponent,
+    EditBookComponent,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     RouterModule.forRoot(routes),
+    BsDatepickerModule.forRoot(),
     AgGridModule.withComponents(
       []
     )
   ],
-  providers: [AppServiceModule, AppUrls],
+  providers: [AppServiceModule, AppUrls, AuthService, AuthGuardService, Languages],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

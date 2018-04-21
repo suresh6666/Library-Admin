@@ -4,4 +4,24 @@
   font-weight: bold;
   background-image: none !important;
 }
-
+#toast {
+  visibility: hidden;
+  min-width: 250px;
+  color: #fff;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  right: 20px;
+  top: 5%;
+}
+#toast.green {
+  background-color: green;
+}
+#toast.red {
+  background-color: red;
+}
+#toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s;
+  animation: fadein 0.5s;
+}

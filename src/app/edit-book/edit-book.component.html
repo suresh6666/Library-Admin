@@ -1,21 +1,5 @@
 <div class="container">
-  <h3>Book Catelog with ISBN number</h3>
-
-  <div class="row">
-    <div class="col-lg-4">
-      <form (submit)="getBookDetails(isbnSearch)" >
-        <div class="form-group">
-          <input id="isbnInput" onClick="javascript:this.form.isbn.select();" type="text"
-                  class="form-control" placeholder="Enter ISBN number"
-                  name="isbn" [(ngModel)]="isbnSearch" required="required" autocomplete="off" />
-        </div>
-        <div class="form-group">
-          <button type="submit" class="btn btn-default btn-sm">Get Details</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
+  <h3>Book: {{ bookInfo['book_title'] }}</h3>
   <hr>
   <form [formGroup]="bookForm" (submit)="postBookDetails(bookForm.value)">
     <div class="row">
@@ -121,7 +105,7 @@
           <!--<input type="text" id="published_date" class="form-control" placeholder="Published date"
                  formControlName="published_date" />-->
           <input type="text" id="published_date" placeholder="Published date" class="form-control" bsDatepicker
-            formControlName="published_date" />
+                 formControlName="published_date" />
         </div>
 
       </div> <!-- end col -->

@@ -55,7 +55,7 @@ export class HomepageComponent implements OnInit {
       this.route.navigate(['/edit-book', event['data']['_id']]);
     }
   }
-  onSelectionChanged() {
+  onSelectionChanged(event) {
     const selectedRows = this.gridApi.getSelectedRows();
     selectedRows.forEach(function(selectedRow, index) {
       console.log(selectedRow);

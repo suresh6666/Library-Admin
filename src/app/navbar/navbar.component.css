@@ -12,3 +12,10 @@
   -webkit-animation-timing-function:ease-in-out;
   -webkit-animation-direction: alternate;
 }
+.pointer {
+  cursor: pointer;
+}
+.navbar-nav.left li a {
+  text-transform: uppercase;
+  font-weight: bold;
+}

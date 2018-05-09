@@ -33,7 +33,6 @@ export class EditBookComponent implements OnInit {
     publisher: new FormControl(),
     ISBN_10: new FormControl(),
     ISBN_13: new FormControl(),
-    ebook: new FormControl(''),
     published_date: new FormControl(),
     image_small_thumbnail: new FormControl(),
     image_thumbnail: new FormControl()
@@ -80,20 +79,30 @@ export class EditBookComponent implements OnInit {
     this.appService.get(this.appUrls.books_list + '/' + this.myParams['_id']).subscribe((data) => {
       console.log(data);
       this.bookInfo = data;
+      data['published_date'] = new Date(data['published_date']).toLocaleString().split(',')[0];
       this.bookForm.patchValue(data);
     }, (err) => {
       console.log(err);
     });
   }
-  postBook(bookForm) {
-    bookForm['book_categories'] = [bookForm['book_categories']];
-    this.appService.post(this.appUrls.books_list, bookForm).subscribe((data) => {
+  updateBook(bookForm) {
+    if (typeof bookForm['book_authors'] === 'string') {
+      bookForm['book_authors'] = bookForm['book_authors'].split(',');
+    }
+    if (typeof bookForm['book_categories'] === 'string') {
+      bookForm['book_categories'] = [bookForm['book_categories']];
+    }
+    bookForm['published_date'] = new Date(bookForm['published_date']).toISOString();
+    console.log('-------', bookForm, bookForm['book_categories']);
+    this.appService.update(this.appUrls.books_list + '/' + this.myParams['_id'], bookForm).subscribe((data) => {
       console.log(data);
+      this.appService.toast(bookForm['book_title'], 'Successfully updated!', 's');
     }, (err) => {
       console.log(err);
+      this.appService.toast('Something went wrong!', '', 'e');
     });
   }
-  postBookDetails(bookForm) {
+  updateBookDetails(bookForm) {
     if (this.imageInput.nativeElement.value) {
       const formData = new FormData();
       formData.append('file', this.imageInput.nativeElement['files'][0]);
@@ -104,12 +113,12 @@ export class EditBookComponent implements OnInit {
           bookForm['image_thumbnail'] = data['data']['path'];
         }
         console.log('Book data', bookForm);
-        this.postBook(bookForm);
+        this.updateBook(bookForm);
       }, (err) => {
         console.log(err);
       });
     } else {
-      this.postBook(bookForm);
+      this.updateBook(bookForm);
     }
   }
 

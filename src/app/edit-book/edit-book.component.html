@@ -1,7 +1,7 @@
 <div class="container">
   <h3>Book: {{ bookInfo['book_title'] }}</h3>
   <hr>
-  <form [formGroup]="bookForm" (submit)="postBookDetails(bookForm.value)">
+  <form [formGroup]="bookForm" (submit)="updateBookDetails(bookForm.value)">
     <div class="row">
       <div class="col-lg-4">
         <div class="form-group">
@@ -102,8 +102,6 @@
 
         <div class="form-group">
           <label for="published_date">Published date</label>
-          <!--<input type="text" id="published_date" class="form-control" placeholder="Published date"
-                 formControlName="published_date" />-->
           <input type="text" id="published_date" placeholder="Published date" class="form-control" bsDatepicker
                  formControlName="published_date" />
         </div>
@@ -113,13 +111,13 @@
         <h5 class="text-uppercase" style="color: orangered;"><b>Do you have E-Book?</b></h5>
         <div class="form-group">
           <label for="e-book">E-Book</label>
-          <input type="file" class="form-control" placeholder="E-book" formControlName="ebook" id="e-book" />
+          <input type="file" class="form-control" #eBookUpload placeholder="E-book" id="e-book" />
         </div>
       </div> <!-- end col -->
     </div> <!-- end row -->
     <div class="row">
       <div class="col-lg-3">
-        <button type="submit" class="btn btn-sm btn-primary">Publish</button>
+        <button type="submit" class="btn btn-sm btn-primary">Update</button>
         <button class="btn-default btn-sm btn" type="reset">Cancel</button>
       </div>
     </div>

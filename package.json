@@ -29,7 +29,9 @@
     "ngx-bootstrap": "^2.0.3",
     "ngx-editor": "^3.3.0-rc.11",
     "rxjs": "^5.5.6",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
+    "express": "4.16.3",
+    "body-parser": "1.18.2"
   },
   "devDependencies": {
     "@angular/cli": "1.6.8",

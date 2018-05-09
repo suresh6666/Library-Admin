@@ -19,7 +19,11 @@ export class LoginComponent implements OnInit {
               private router: Router,
               private appUrls: AppUrls) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/homepage']);
+    }
+  }
   login(user: object, lform) {
     console.log(user, lform);
     this.appService.post(this.appUrls.login, user).subscribe((data) => {

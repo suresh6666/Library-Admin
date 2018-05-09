@@ -16,9 +16,10 @@ import {AppServiceModule, AuthGuardService, AuthService, Languages} from './shar
 import {AppUrls} from './config/constant.config';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { PersonsComponent } from './persons/persons.component';
-import {BsDatepickerModule} from 'ngx-bootstrap';
+import {BsDatepickerModule, ModalModule} from 'ngx-bootstrap';
 import { EditBookComponent } from './edit-book/edit-book.component';
 import { CategoriesComponent } from './categories/categories.component';
+import {FilterPipe} from './app.pipe';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { CategoriesComponent } from './categories/categories.component';
     PublishBookComponent,
     PersonsComponent,
     EditBookComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
@@ -40,6 +42,7 @@ import { CategoriesComponent } from './categories/categories.component';
     FormsModule,
     RouterModule.forRoot(routes),
     BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
     AgGridModule.withComponents(
       []
     )

@@ -44,7 +44,8 @@ export class HomepageComponent implements OnInit {
   }
   ngOnInit () {
     console.log(this.appUrls.books_list);
-    this.appService.get(this.appUrls.books_list).subscribe((data) => {
+    const query = {sort: '-_updated', max_results: 100};
+    this.appService.get(this.appUrls.books_list, query).subscribe((data) => {
       const items: any = data['_items'];
       this.gridOptions.api.setRowData(items);
     });

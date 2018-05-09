@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AppServiceModule, Languages} from '../shared/app.service.module';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AppUrls} from '../config/constant.config';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-publish-book',
@@ -17,30 +18,31 @@ export class PublishBookComponent implements OnInit {
   categories: any = [];
   imagePreview: any = {};
   bookForm = new FormGroup({
-    book_title: new FormControl(),
-    sub_title: new FormControl(),
+    book_title: new FormControl('', Validators.required),
+    sub_title: new FormControl(''),
     book_summary: new FormControl(),
     book_keywords: new FormControl(),
-    no_of_pages: new FormControl(),
-    book_authors: new FormControl(),
+    no_of_pages: new FormControl('', Validators.required),
+    book_authors: new FormControl('', Validators.required),
     book_author_desc: new FormControl(),
     availability: new FormControl(true),
-    hcopy_price: new FormControl(),
-    ecopy_price: new FormControl(),
-    book_categories: new FormControl(),
-    language: new FormControl(),
-    publisher: new FormControl(),
-    ISBN_10: new FormControl(),
-    ISBN_13: new FormControl(),
-    ebook: new FormControl(''),
-    published_date: new FormControl(),
-    image_small_thumbnail: new FormControl(),
-    image_thumbnail: new FormControl()
+    hcopy_price: new FormControl(0, Validators.required),
+    ecopy_price: new FormControl(0, Validators.required),
+    book_categories: new FormControl('', Validators.required),
+    language: new FormControl('', Validators.required),
+    publisher: new FormControl('', Validators.required),
+    ISBN_10: new FormControl('', Validators.required),
+    ISBN_13: new FormControl('', Validators.required),
+    published_date: new FormControl('', Validators.required),
+    image_small_thumbnail: new FormControl('', Validators.required),
+    image_thumbnail: new FormControl('', Validators.required)
   });
   @ViewChild('imageUpload') imageInput: ElementRef;
+  @ViewChild('eBookUpload') eBookInput: ElementRef;
   constructor(private appService: AppServiceModule,
               private langs: Languages,
-              private appUrls: AppUrls) {}
+              private appUrls: AppUrls,
+              private router: Router) {}
   ngOnInit() {
     this.trueFalseArray = [
       {text: 'Yes', val: true},
@@ -68,7 +70,7 @@ export class PublishBookComponent implements OnInit {
         this.bookInfo['book_title'] = this.googleBookInfo['title'];
         this.bookInfo['sub_title'] = this.googleBookInfo['subtitle'];
         this.bookInfo['publisher'] = this.googleBookInfo['publisher'];
-        this.bookInfo['published_date'] = this.googleBookInfo['publishedDate'];
+        this.bookInfo['published_date'] = new Date(this.googleBookInfo['publishedDate']).toLocaleString().split(',')[0];
         /*if (this.googleBookInfo['categories']) {
           this.bookInfo['book_category'] = this.googleBookInfo.categories.toString();
         }*/
@@ -102,6 +104,14 @@ export class PublishBookComponent implements OnInit {
 
     reader.readAsDataURL(this.imageInput.nativeElement['files'][0]);
   }
+  eBookChangeEvent(event) {
+    const file = this.eBookInput.nativeElement['files'][0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      console.log(e);
+    };
+    reader.readAsDataURL(this.eBookInput.nativeElement['files'][0]);
+  }
   getCategories () {
     this.appService.get(this.appUrls.categories).subscribe((data: any) => {
       console.log(data);
@@ -114,9 +124,27 @@ export class PublishBookComponent implements OnInit {
     bookForm['book_categories'] = [bookForm['book_categories']];
     this.appService.post(this.appUrls.books_list, bookForm).subscribe((data) => {
       console.log(data);
+      this.appService.toast(bookForm['book_title'], 'Successfully added in Database', 's');
+      this.router.navigate(['/homepage']);
     }, (err) => {
       console.log(err);
     });
+  }
+  checkEBookUpload(bookForm) {
+    if (this.eBookInput.nativeElement.value) {
+      const formData = new FormData();
+      formData.append('file', this.eBookInput.nativeElement['files'][0]);
+      this.appService.post(this.appUrls.upload_file, formData, true).subscribe((data) => {
+        if (data && data['data']) {
+          bookForm['ebook'] = data['data']['path'];
+        }
+        this.postBook(bookForm);
+      }, (err) => {
+        console.log(err);
+      });
+    } else {
+      this.postBook(bookForm);
+    }
   }
   postBookDetails(bookForm) {
     if (this.imageInput.nativeElement.value) {
@@ -129,12 +157,12 @@ export class PublishBookComponent implements OnInit {
           bookForm['image_thumbnail'] = data['data']['path'];
         }
         console.log('Book data', bookForm);
-        this.postBook(bookForm);
+        this.checkEBookUpload(bookForm);
       }, (err) => {
         console.log(err);
       });
     } else {
-      this.postBook(bookForm);
+      this.checkEBookUpload(bookForm);
     }
   }
 }

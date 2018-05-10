@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GridOptions, GridApi } from 'ag-grid';
 import {AppServiceModule} from '../shared/app.service.module';
 import {AppUrls} from '../config/constant.config';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -13,9 +13,18 @@ export class HomepageComponent implements OnInit {
   public gridOptions: GridOptions;
   public rowSelection;
   public gridApi = <GridApi>{};
+  public query: any = {sort: '-_updated', max_results: 25, page: 1};
+  public _meta: any;
   constructor(private appService: AppServiceModule,
               private appUrls: AppUrls,
-              private route: Router) {
+              private route: Router,
+              private activatedRoute: ActivatedRoute) {
+    // Optional parameters
+    this.activatedRoute.queryParams.subscribe((params: any) => {
+      this.query = (Object.keys(params).length > 0) ? params : this.query;
+      console.log('Activated route called!');
+      this.getBooks();
+    });
     this.gridOptions = <GridOptions>{};
     this.gridOptions.rowData = [];
     this.rowSelection = 'single';
@@ -43,10 +52,16 @@ export class HomepageComponent implements OnInit {
     ];
   }
   ngOnInit () {
-    console.log(this.appUrls.books_list);
-    const query = {sort: '-_updated', max_results: 100};
-    this.appService.get(this.appUrls.books_list, query).subscribe((data) => {
+    this.getBooks();
+  }
+  getBooks() {
+    this.appService.get(this.appUrls.books_list, this.query).subscribe((data) => {
       const items: any = data['_items'];
+      this._meta = data['_meta'];
+      this._meta['pageNumbers'] = new Array(Math.round(this._meta['total'] / this._meta['max_results']));
+      if (this._meta['pageNumbers'].length === 0) {
+        this._meta['pageNumbers'] = [1];
+      }
       this.gridOptions.api.setRowData(items);
     });
   }

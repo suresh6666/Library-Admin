@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/homepage']);
+      this.router.navigate(['/homepage'], {queryParams: {page: 1, max_results: 25, sort: '-_updated'}});
     }
   }
   login(user: object, lform) {

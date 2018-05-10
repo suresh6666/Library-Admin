@@ -28,6 +28,9 @@
 .pointer {
   cursor: pointer;
 }
+.pointer:hover {
+  background: #eeeeee;
+}
 .container {
   margin-bottom: 30px;
 }

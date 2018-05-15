@@ -7,8 +7,9 @@
     </div>
   </div>
   <br>
-  <table class="table table-bordered table-responsive">
-    <thead>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
       <tr>
         <th>Action</th>
         <th>First name</th>
@@ -20,17 +21,19 @@
         <th>Age</th>
         <th>Registered on</th>
       </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
       <tr class="pointer" *ngFor="let item of persons; let index = index;">
         <td>
-          <button class="btn btn-xs btn-danger" (click)="deletePerson(item, index)">
+          <button title="Delete {{ item['first_name'] }}" class="btn btn-xs btn-danger" (click)="deletePerson(item, index)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>&nbsp;
-          <button (click)="toggleStatus('inactive', item, index)" *ngIf="item['status'] === 'active'" class="btn btn-xs btn-default">
+          <button title="Make {{ item['first_name'] }} as Inactive"
+                  (click)="toggleStatus('inactive', item, index)" *ngIf="item['status'] === 'active'" class="btn btn-xs btn-default">
             <span class="glyphicon glyphicon-ban-circle"></span>
           </button>
-          <button (click)="toggleStatus('active', item, index)" *ngIf="item['status'] === 'inactive'" class="btn btn-xs btn-default">
+          <button title="Make {{ item['first_name'] }} as Active"
+                  (click)="toggleStatus('active', item, index)" *ngIf="item['status'] === 'inactive'" class="btn btn-xs btn-default">
             <span class="glyphicon glyphicon-ok-circle"></span>
           </button>
         </td>
@@ -43,8 +46,9 @@
         <td>{{ item['age'] }}</td>
         <td>{{ item['created_date'] | date: 'dd/MM/yyyy hh:mm a' }}</td>
       </tr>
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
   <div class="row">
     <div class="col-lg-1 col-md-1">
       <button class="btn btn-xs btn-default text-center" (click)="pagination(usersMeta['page'] - 1)">

@@ -26,6 +26,11 @@ export class PersonsComponent implements OnInit {
       }
     });
   }
+  stopLoading () {
+    setTimeout(() => {
+      this.appUrls.loadingIcon = false;
+    }, 500);
+  }
   pagination(page) {
     this.query['page'] = page;
     this.router.navigate(['/persons'], {queryParams: this.query});
@@ -65,10 +70,14 @@ export class PersonsComponent implements OnInit {
   }
   getPersons() {
     this.persons = [];
+    this.appUrls.loadingIcon = true;
     this.appService.get(this.appUrls.users, this.query).subscribe((data) => {
       console.log(data);
       this.usersMeta = data['_meta'];
       this.persons = data['_items'];
+      this.stopLoading();
+    }, (err) => {
+      this.stopLoading();
     });
   }
 

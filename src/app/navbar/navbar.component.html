@@ -16,7 +16,7 @@
         <!-- Brand -->
         <div class="brand-name-wrapper">
           <a class="navbar-brand" routerLink="/homepage"
-             [queryParams]="{page: 1, max_results: 25, sort: '-_updated'}">
+             [queryParams]="{page: 1, max_results: 15, sort: '-_updated'}">
             Brand
           </a>
         </div>
@@ -57,7 +57,7 @@
         </li>
         <li routerLinkActive="active">
           <a routerLink="/homepage"
-               [queryParams]="{page: 1, max_results: 25, sort: '-_updated'}">
+               [queryParams]="{page: 1, max_results: 15, sort: '-_updated'}">
             <span class="glyphicon glyphicon-send"></span> Books
           </a>
         </li>
@@ -98,7 +98,7 @@
             </div>
           </div>
         </li>-->
-        <li><a href="#"><span class="glyphicon glyphicon-signal"></span> Link</a></li>
+        <li routerLinkActive="active"><a routerLink="/orders"><span class="glyphicon glyphicon-signal"></span> Orders</a></li>
 
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -111,4 +111,8 @@
   <div class="side-body">
     <router-outlet></router-outlet>
   </div>
+</div>
+
+<div class="loading" *ngIf="appUrls.loadingIcon">
+  <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
 </div>

@@ -20,6 +20,7 @@ import {BsDatepickerModule, ModalModule} from 'ngx-bootstrap';
 import { EditBookComponent } from './edit-book/edit-book.component';
 import { CategoriesComponent } from './categories/categories.component';
 import {FilterPipe} from './app.pipe';
+import { OrdersComponent } from './orders/orders.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import {FilterPipe} from './app.pipe';
     PersonsComponent,
     EditBookComponent,
     CategoriesComponent,
-    FilterPipe
+    FilterPipe,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

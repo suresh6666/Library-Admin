@@ -23,6 +23,11 @@ export class CategoriesComponent implements OnInit {
   ngOnInit() {
     this.getCategories();
   }
+  stopLoading() {
+    setTimeout(() => {
+      this.appUrls.loadingIcon = false;
+    }, 500);
+  }
   openModal(template: TemplateRef<any>, item) {
     this.modalRef = this.modalService.show(template);
     this.modalItem = item;
@@ -37,6 +42,7 @@ export class CategoriesComponent implements OnInit {
     });
   }
   addCategory(item, type) {
+    this.appUrls.loadingIcon = true;
     const url = this.appUrls.categories;
     this.appService.post(url, {category_name: item['category_name']})
       .subscribe((success) => {
@@ -44,21 +50,26 @@ export class CategoriesComponent implements OnInit {
         this.categories.push(success);
         this.modalRef.hide();
         this.appService.toast(item['category_name'], 'Successfully Created!', 's');
+        this.stopLoading();
       });
   }
   updateCategory(item, type) {
+    this.appUrls.loadingIcon = true;
     const url = this.appUrls.categories + '/' + item['_id'];
     this.appService.update(url, {category_name: item['category_name']})
       .subscribe((success) => {
         console.log(success);
         this.modalRef.hide();
         this.appService.toast(item['category_name'], 'Successfully updated!', 's');
+        this.stopLoading();
       });
   }
   deleteCategory(item, index) {
+    this.appUrls.loadingIcon = true;
     this.appService.delete(this.appUrls.categories + '/' + item['_id']).subscribe((success) => {
       this.appService.toast(item['category_name'], 'successfully deleted!', 's');
       this.categories.splice(index, 1);
+      this.stopLoading();
     });
   }
 

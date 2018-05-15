@@ -8,6 +8,7 @@ import {PersonsComponent} from '../persons/persons.component';
 import {AuthGuardService as AuthGaurd} from '../shared/app.service.module';
 import {EditBookComponent} from '../edit-book/edit-book.component';
 import {CategoriesComponent} from '../categories/categories.component';
+import {OrdersComponent} from '../orders/orders.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'edit-book/:_id', component: EditBookComponent },
   { path: 'categories', component: CategoriesComponent },
   { path: 'persons', component: PersonsComponent, canActivate: [AuthGaurd] },
+  { path: 'orders', component: OrdersComponent },
   { path: '',
     redirectTo: '/login',
     pathMatch: 'full'

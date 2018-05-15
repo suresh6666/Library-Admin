@@ -35,7 +35,8 @@ export class PublishBookComponent implements OnInit {
     ISBN_13: new FormControl('', Validators.required),
     published_date: new FormControl('', Validators.required),
     image_small_thumbnail: new FormControl('', Validators.required),
-    image_thumbnail: new FormControl('', Validators.required)
+    image_thumbnail: new FormControl('', Validators.required),
+    no_of_copies: new FormControl(1, Validators.required)
   });
   @ViewChild('imageUpload') imageInput: ElementRef;
   @ViewChild('eBookUpload') eBookInput: ElementRef;
@@ -52,6 +53,7 @@ export class PublishBookComponent implements OnInit {
     this.getCategories();
   }
   getBookDetails (isbnNumber: string) {
+    this.appUrls.loadingIcon = true;
     if (!isbnNumber) { return; }
     const googleBookAPI = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' + isbnNumber;
     this.appService.get(googleBookAPI).subscribe((data) => {
@@ -87,10 +89,17 @@ export class PublishBookComponent implements OnInit {
         }
         console.log(this.bookInfo);
         this.bookForm.patchValue(this.bookInfo);
+        this.stopLoading();
       }
     }, (err) => {
       console.log(err);
+      this.stopLoading();
     });
+  }
+  stopLoading () {
+    setTimeout(() => {
+      this.appUrls.loadingIcon = false;
+    }, 500);
   }
   fileChangeEvent (event) {
     const image = this.imageInput.nativeElement['files'][0];
@@ -126,8 +135,10 @@ export class PublishBookComponent implements OnInit {
       console.log(data);
       this.appService.toast(bookForm['book_title'], 'Successfully added in Database', 's');
       this.router.navigate(['/homepage']);
+      this.stopLoading();
     }, (err) => {
       console.log(err);
+      this.stopLoading();
     });
   }
   checkEBookUpload(bookForm) {
@@ -141,12 +152,14 @@ export class PublishBookComponent implements OnInit {
         this.postBook(bookForm);
       }, (err) => {
         console.log(err);
+        this.stopLoading();
       });
     } else {
       this.postBook(bookForm);
     }
   }
   postBookDetails(bookForm) {
+    this.appUrls.loadingIcon = true;
     if (this.imageInput.nativeElement.value) {
       const formData = new FormData();
       formData.append('file', this.imageInput.nativeElement['files'][0]);
@@ -160,6 +173,7 @@ export class PublishBookComponent implements OnInit {
         this.checkEBookUpload(bookForm);
       }, (err) => {
         console.log(err);
+        this.stopLoading();
       });
     } else {
       this.checkEBookUpload(bookForm);
